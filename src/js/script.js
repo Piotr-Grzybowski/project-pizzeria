@@ -58,7 +58,10 @@
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
     }
     renderInMenu(){
       const thisProduct = this;
@@ -75,15 +78,20 @@
       // add element to menu
       menuContainer.appendChild(thisProduct.element);
     }
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
     initAccordion(){
       const thisProduct = this;
 
-
-      /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-
       /* START: click event listener to trigger */
-      clickableTrigger.addEventListener('click', (event) => {
+      thisProduct.accordionTrigger.addEventListener('click', (event) => {
 
         /* prevent default action for event */
         event.preventDefault();
@@ -111,6 +119,51 @@
 
         /* END: click event listener to trigger */
       });
+    }
+    initOrderForm(){
+      const thisProduct = this;
+      console.log(thisProduct);
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.processOrder();
+        });
+      }
+
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
+    processOrder(){
+      const thisProduct = this;
+      let price = thisProduct.data.price;
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+
+      for (let param in thisProduct.data.params) {
+        for (let option in thisProduct.data.params[param].options) {
+          const isSelected = formData.hasOwnProperty(param) && formData[param].indexOf(option) > -1; // if option selected
+          const isDefault = thisProduct.data.params[param].options[option].default == true; // if option default
+          const optionPrice = thisProduct.data.params[param].options[option].price; // price of option
+          // if option clicked and not default
+          if (isSelected && !isDefault) {
+            price += optionPrice;
+          }
+          // if option default and unclicked
+          else if (!isSelected && isDefault) {
+            price -= optionPrice;
+          }
+        }
+      }
+
+      thisProduct.priceElem.innerHTML = price;
+
     }
   }
 
