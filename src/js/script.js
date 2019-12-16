@@ -96,7 +96,6 @@
 
         /* START LOOP: for each active product */
         for (let activeProduct of activeProducts) {
-          console.log('active', activeProduct.classList);
 
           /* START: if the active product isn't the element of thisProduct */
           if (activeProduct != thisProduct.element) {
