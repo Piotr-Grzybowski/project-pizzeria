@@ -86,6 +86,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
     initAccordion(){
       const thisProduct = this;
@@ -122,7 +123,6 @@
     }
     initOrderForm(){
       const thisProduct = this;
-      console.log(thisProduct);
 
       thisProduct.form.addEventListener('submit', function(event){
         event.preventDefault();
@@ -151,6 +151,9 @@
           const isSelected = formData.hasOwnProperty(param) && formData[param].indexOf(option) > -1; // if option selected
           const isDefault = thisProduct.data.params[param].options[option].default == true; // if option default
           const optionPrice = thisProduct.data.params[param].options[option].price; // price of option
+          const images = thisProduct.imageWrapper.querySelectorAll('.'+ param + '-' + option); // option images
+          const visible = classNames.menuProduct.imageVisible;
+
           // if option clicked and not default
           if (isSelected && !isDefault) {
             price += optionPrice;
@@ -158,6 +161,18 @@
           // if option default and unclicked
           else if (!isSelected && isDefault) {
             price -= optionPrice;
+          }
+          // of option selected show image of option
+          if (isSelected) {
+            for (let image of images){
+              image.classList.add(visible);
+            }
+          }
+          // if option not selected hide image of option
+          else {
+            for (let image of images){
+              image.classList.remove(visible);
+            }
           }
         }
       }
