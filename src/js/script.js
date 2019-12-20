@@ -195,6 +195,8 @@
       const thisWidget = this;
 
       thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
 
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
@@ -208,6 +210,34 @@
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
     }
+
+    initActions(){
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', thisWidget.setValue(thisWidget.input.value));
+      thisWidget.linkDecrease.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        thisWidget.setValue(parseInt(thisWidget.input.value) - 1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        thisWidget.setValue(parseInt(thisWidget.input.value) + 1);
+      });
+    }
+
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      // TODO: Add validation
+
+      thisWidget.value = newValue;
+      thisWidget.input.value = thisWidget.value;
+    }
+
   }
 
   const app = {
