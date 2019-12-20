@@ -198,6 +198,7 @@
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
+      thisWidget.value = settings.amountWidget.defaultValue;
 
       thisWidget.getElements(element);
       thisWidget.setValue(thisWidget.input.value);
@@ -237,10 +238,14 @@
 
       const newValue = parseInt(value);
 
-      // TODO: Add validation
+      // DONE: Add validation
+      if (newValue !== thisWidget.value && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin){
 
-      thisWidget.value = newValue;
-      thisWidget.announce();
+        thisWidget.value = newValue;
+        thisWidget.announce();
+
+      }
+
       thisWidget.input.value = thisWidget.value;
     }
 
