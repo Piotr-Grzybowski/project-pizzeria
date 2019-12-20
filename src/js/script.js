@@ -178,6 +178,8 @@
           }
         }
       }
+      // multiply price by amount
+      price *= thisProduct.amountWidget.value;
 
       thisProduct.priceElem.innerHTML = price;
 
@@ -185,8 +187,11 @@
 
     initAmountWidget(){
       const thisProduct = this;
-
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+      thisProduct.amountWidgetElem.addEventListener('updated', () => {
+        thisProduct.processOrder();
+      });
     }
   }
 
