@@ -348,6 +348,15 @@
       }
     }
 
+    clearCart(){
+      const thisCart = this;
+
+      thisCart.products = [];
+      thisCart.dom.productList.innerHTML = '';
+
+      thisCart.update();
+    }
+
     initActions(){
       const thisCart = this;
 
@@ -401,7 +410,9 @@
         })
         .then((parsedResponse) => {
           console.log('parsedResponse', parsedResponse);
+          thisCart.clearCart();
         });
+
     }
 
     add(menuProduct){
