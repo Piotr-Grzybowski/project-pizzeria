@@ -178,6 +178,8 @@
           }
         }
       }
+      // multiply price by amount
+      price *= thisProduct.amountWidget.value;
 
       thisProduct.priceElem.innerHTML = price;
 
@@ -185,16 +187,22 @@
 
     initAmountWidget(){
       const thisProduct = this;
-
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+      thisProduct.amountWidgetElem.addEventListener('updated', () => {
+        thisProduct.processOrder();
+      });
     }
   }
 
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
+      thisWidget.value = settings.amountWidget.defaultValue;
 
       thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
 
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
@@ -208,6 +216,46 @@
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
     }
+
+    initActions(){
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', thisWidget.setValue(thisWidget.input.value));
+      thisWidget.linkDecrease.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        thisWidget.setValue(parseInt(thisWidget.input.value) - 1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        thisWidget.setValue(parseInt(thisWidget.input.value) + 1);
+      });
+    }
+
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      // DONE: Add validation
+      if (newValue !== thisWidget.value && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin){
+
+        thisWidget.value = newValue;
+        thisWidget.announce();
+
+      }
+
+      thisWidget.input.value = thisWidget.value;
+    }
+
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
+    }
+
   }
 
   const app = {
