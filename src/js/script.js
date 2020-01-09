@@ -91,6 +91,15 @@
       thisProduct.processOrder();
     }
 
+    addToCart(){
+      const thisProduct = this;
+
+      thisProduct.name = thisProduct.data.name;
+      thisProduct.amount = thisProduct.amountWidget.value;
+
+      app.cart.add(thisProduct);
+    }
+
     renderInMenu(){
       const thisProduct = this;
 
@@ -170,12 +179,19 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
 
     processOrder(){
       const thisProduct = this;
+
+      thisProduct.params = {};
+
+      // set variable price equal to thisProduct.data.price
       let price = thisProduct.data.price;
+
+      const visible = classNames.menuProduct.imageVisible; // class that makes image visible
 
       const formData = utils.serializeFormToObject(thisProduct.form);
 
@@ -185,7 +201,8 @@
           const isDefault = thisProduct.data.params[param].options[option].default == true; // if option default
           const optionPrice = thisProduct.data.params[param].options[option].price; // price of option
           const image = thisProduct.imageWrapper.querySelector('.'+ param + '-' + option); // option's image
-          const visible = classNames.menuProduct.imageVisible; // class that makes image visible
+          const thisParam = thisProduct.data.params[param]; // current parameter
+          const thisOption = thisProduct.data.params[param].options[option]; // current option
 
           // if option clicked and not default
           if (isSelected && !isDefault) {
@@ -197,17 +214,32 @@
           }
           // If option have an image
           if (image) {
-            // if option selected show image of option
-            if (isSelected) image.classList.add(visible);
+            // if option selected
+            if (isSelected) {
+              // add selected option to thisProduct.params
+              if(!thisProduct.params[param]){
+                thisProduct.params[param] = {
+                  label: thisParam.label,
+                  options: {},
+                };
+              }
+              thisProduct.params[param].options[option] = thisOption.label;
+              console.log('param', param.label);
+
+              //  show image of option
+              image.classList.add(visible);
+            }
             // if option not selected hide image of option
             else image.classList.remove(visible);
           }
         }
       }
       // multiply price by amount
-      price *= thisProduct.amountWidget.value;
+      thisProduct.priceSingle = price;
+      thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
 
-      thisProduct.priceElem.innerHTML = price;
+      thisProduct.priceElem.innerHTML = thisProduct.price;
+      console.log(thisProduct.params);
 
     }
 
@@ -299,6 +331,8 @@
 
       thisCart.dom = {};
 
+      thisCart.dom.productList = document.querySelector(select.cart.productList);
+
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
@@ -309,6 +343,20 @@
       thisCart.dom.toggleTrigger.addEventListener('click', () => {
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+
+    add(menuProduct){
+      const thisCart = this;
+
+      // generate HTML based on template
+      const generatedHTML = templates.cartProduct(menuProduct);
+
+      // create DOM using utils.createElementFromHTML
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+
+      // add DOM elements to product list
+      thisCart.dom.productList.appendChild(generatedDOM);
+
     }
   }
 
