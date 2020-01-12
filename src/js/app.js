@@ -68,7 +68,7 @@ const app = {
 
     for(let link of thisApp.navLinks){
       link.addEventListener('click', (event) => {
-        const clickedElement = this;
+        //const clickedElement = this;
         event.preventDefault();
 
         // TODO get page id from href
