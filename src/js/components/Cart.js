@@ -119,7 +119,6 @@ export class Cart{
     }
 
     thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
-    console.log('update method:', thisCart.totalNumber, thisCart.subtotalPrice, thisCart.totalPrice);
 
     for(let key of thisCart.renderTotalsKeys){
       for(let elem of thisCart.dom[key]){
