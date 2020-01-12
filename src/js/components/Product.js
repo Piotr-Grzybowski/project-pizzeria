@@ -23,7 +23,7 @@ export class Product{
 
     // app.cart.add(thisProduct);
 
-    const event = CustomEvent('add-to-cart', {
+    const event = new CustomEvent('add-to-cart', {
       bubbles: true,
       detail: {
         product: thisProduct,
