@@ -1,62 +1,50 @@
 import {settings, select} from '../settings.js';
+import {BaseWidget} from './BaseWidget.js';
 
-export class AmountWidget{
-  constructor(element){
+export class AmountWidget extends BaseWidget{
+  constructor(wrapper){
+    super(wrapper, settings.amountWidget.defaultValue);
+
     const thisWidget = this;
-    thisWidget.value = settings.amountWidget.defaultValue;
 
-    thisWidget.getElements(element);
-    thisWidget.setValue(thisWidget.input.value);
+    thisWidget.getElements();
     thisWidget.initActions();
-
   }
 
-  getElements(element){
+  getElements(){
     const thisWidget = this;
 
-    thisWidget.element = element;
-    thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
-    thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
-    thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.amount.input);
+    thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkDecrease);
+    thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
+  }
+
+  isValid(newValue){
+    return !isNaN(newValue) && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax;
   }
 
   initActions(){
     const thisWidget = this;
 
-    thisWidget.input.addEventListener('change', thisWidget.setValue(thisWidget.input.value));
-    thisWidget.linkDecrease.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      thisWidget.setValue(parseInt(thisWidget.input.value) - 1);
+    thisWidget.dom.input.addEventListener('change', () => {
+      thisWidget.value = thisWidget.dom.input.value;
     });
-    thisWidget.linkIncrease.addEventListener('click', (event) => {
-      event.preventDefault();
 
-      thisWidget.setValue(parseInt(thisWidget.input.value) + 1);
+    thisWidget.dom.linkDecrease.addEventListener('click', (event) => {
+      event.preventDefault();
+      thisWidget.value = (parseInt(thisWidget.dom.input.value) - 1);
+    });
+
+    thisWidget.dom.linkIncrease.addEventListener('click', (event) => {
+      event.preventDefault();
+      thisWidget.value = (parseInt(thisWidget.dom.input.value) + 1);
     });
   }
 
-  setValue(value){
+  renderValue(){
     const thisWidget = this;
 
-    const newValue = parseInt(value);
-
-    // DONE: Add validation
-    if (newValue !== thisWidget.value && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin){
-
-      thisWidget.value = newValue;
-      thisWidget.announce();
-
-    }
-
-    thisWidget.input.value = thisWidget.value;
-  }
-
-  announce(){
-    const thisWidget = this;
-
-    const event = new Event('updated', {bubbles: true});
-    thisWidget.element.dispatchEvent(event);
+    thisWidget.dom.input.value = thisWidget.value;
   }
 
 }
