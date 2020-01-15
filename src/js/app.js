@@ -2,6 +2,7 @@
 import {Product} from './components/Product.js';
 import {Cart} from './components/Cart.js';
 import {Booking} from './components/Booking.js';
+import {LandingPage} from './components/LandingPage.js';
 import {select, settings, classNames} from './settings.js';
 
 const app = {
@@ -54,6 +55,9 @@ const app = {
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
 
+    console.log(thisApp.pages);
+
+    // eslint-disable-next-line no-unused-vars
     let pagesMatchingHash = [];
 
     if(window.location.hash.length > 2){
@@ -64,7 +68,8 @@ const app = {
       });
     }
 
-    thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
+    // thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
+    thisApp.activatePage('landing');
 
     for(let link of thisApp.navLinks){
       link.addEventListener('click', (event) => {
@@ -98,6 +103,12 @@ const app = {
 
     thisApp.booking = new Booking(bookingWrapper);
   },
+  initLandingPage: function(){
+    const thisApp = this;
+    const landingWrapper = document.querySelector(select.containerOf.landingPage);
+
+    thisApp.landing = new LandingPage(landingWrapper);
+  },
   init: function(){
     const thisApp = this;
     // console.log('*** App starting ***');
@@ -109,6 +120,7 @@ const app = {
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initLandingPage();
   },
 };
 
