@@ -13,15 +13,18 @@
   align-items: center;
   width: 100%;
   margin-top: -18px;
+
   .row {
     flex: 100% 0 0;
     width: 100%;
   }
+
   .side {
     width: 49.7%;
     display: inline-block;
   }
-  .box{
+
+  .box {
     position: relative;
     text-align: center;
     height: 120px;
@@ -29,26 +32,87 @@
     color: #fff;
     border-radius: 1.3%;
   }
+
   .box-image {
     width: 100%;
     height: 100%;
-    background-image: url('../../images/assets/pizza-1.jpg');
-
+    background-size: cover;
+    z-index: 10;
   }
-  .box-link {
 
+  .picture1 {
+    background-image: url("../../images/assets/pizza-1.jpg");
+  }
+
+  .picture2 {
+    background-image: url("../../images/assets/pizza-2.jpg");
+  }
+
+  .box-link {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: normal;
+
     a {
       width: 100%;
       height: 100%;
       color: white;
+      text-decoration: none;
     }
   }
+
+  .box-image:hover {
+    cursor: pointer;
+  }
+
   .hidden {
     display: none;
+  }
+}
+
+// Carousel
+.carousel {
+  margin: 86px auto;
+}
+
+.glide__slide {
+  display: flex;
+
+  .slide-img {
+    flex: 1 0 0;
+    max-width: 33%;
+    float: left;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .slide-description {
+    flex: 2 0 0;
+    padding: 0 20px;
+  }
+}
+
+.glide__bullets {
+  padding-top: 20px;
+  bottom: auto;
+
+  .glide__bullet {
+    margin-left: 10px;
+    background-color: grey;
+
+    &:focus {
+      background-color: black;
+    }
+
+    &:hover {
+      background-color: black;
+      border-color: black;
+    }
   }
 }
