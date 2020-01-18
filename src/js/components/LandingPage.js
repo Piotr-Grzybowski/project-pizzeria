@@ -1,5 +1,5 @@
 /* global Glide */
-import { templates } from '../settings.js';
+import { select, templates } from '../settings.js';
 import { utils } from '../utils.js';
 
 
@@ -7,7 +7,13 @@ export class LandingPage {
   constructor(wrapper) {
     const thisLandingPage = this;
     thisLandingPage.render(wrapper);
-    thisLandingPage.initCarousel();
+    thisLandingPage.getLinks();
+    thisLandingPage.initPlugin();
+  }
+
+  getLinks() {
+    const thisLandingPage = this;
+    thisLandingPage.navLinks = Array.from(thisLandingPage.wrapper.querySelectorAll(select.nav.landingLinks));
   }
 
   render(wrapper) {
@@ -20,19 +26,20 @@ export class LandingPage {
     thisLandingPage.wrapper.appendChild(utils.createDOMFromHTML(generatedHTML));
   }
 
-  initCarousel() {
+  initPlugin() {
     const thisLandingPage = this;
 
-    const slider = thisLandingPage.wrapper.querySelector('.glide');
+    const carousel = thisLandingPage.wrapper.querySelector('.glide');
     const options = {
       type: 'carousel',
       autoplay: 3000,
       animationDuration: 1500,
       startAt: 1,
+      hoverpause: true
     };
 
-    if (slider) {
-      const glide = new Glide(slider, options);
+    if (carousel) {
+      const glide = new Glide(carousel, options);
       glide.mount();
     }
   }

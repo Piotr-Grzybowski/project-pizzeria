@@ -55,8 +55,6 @@ const app = {
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
 
-    console.log(thisApp.pages);
-
     // eslint-disable-next-line no-unused-vars
     let pagesMatchingHash = [];
 
@@ -67,9 +65,8 @@ const app = {
         return page.id === idFromHash;
       });
     }
-
-    // thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
-    thisApp.activatePage('landing');
+    console.log('pages', pagesMatchingHash);
+    thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
 
     for(let link of thisApp.navLinks){
       link.addEventListener('click', (event) => {
@@ -108,6 +105,19 @@ const app = {
     const landingWrapper = document.querySelector(select.containerOf.landingPage);
 
     thisApp.landing = new LandingPage(landingWrapper);
+
+    for(let link of thisApp.landing.navLinks){
+      link.addEventListener('click', (event) => {
+        //const clickedElement = this;
+        event.preventDefault();
+
+        // TODO get page id from href
+        let id = link.getAttribute('href').replace('#', '');
+
+        // TODO activate page
+        app.activatePage(id);
+      });
+    }
   },
   init: function(){
     const thisApp = this;

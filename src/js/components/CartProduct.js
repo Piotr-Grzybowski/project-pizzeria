@@ -13,7 +13,6 @@ export class CartProduct{
     thisCartProduct.getElements(element);
     thisCartProduct.initActions();
     thisCartProduct.initAmountWidget();
-
   }
 
   getElements(element){

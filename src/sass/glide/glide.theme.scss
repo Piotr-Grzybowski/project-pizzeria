@@ -69,14 +69,8 @@
       outline: none;
     }
 
-    &:hover,
-    &:focus {
-      border: 2px solid white;
-      background-color: rgba(255, 255, 255, 0.5);
-    }
-
     &#{$sm}active {
-      background-color: white;
+      border-color: black;
     }
   }
 
