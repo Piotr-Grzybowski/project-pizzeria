@@ -138,12 +138,14 @@
 
 .row {
   flex: 100% 0 0;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  justify-content: space-between;
+  display: flex;
 
   .three-in-row {
     position: relative;
     float: left;
-    width: 32%;
+    width: 33%;
     height: 195px;
 
     .img {
