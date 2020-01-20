@@ -86,6 +86,7 @@ export class Cart{
       })
       .then((parsedResponse) => {
         console.log('parsedResponse', parsedResponse);
+        thisCart.clear();
       });
   }
 
@@ -133,6 +134,15 @@ export class Cart{
 
     thisCart.products.splice(index, 1);
     cartProduct.dom.wrapper.remove();
+
+    thisCart.update();
+  }
+
+  clear() {
+    const thisCart = this;
+
+    thisCart.products = [];
+    thisCart.dom.productList.innerHTML = '';
 
     thisCart.update();
   }
