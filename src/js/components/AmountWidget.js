@@ -1,15 +1,22 @@
 import {settings, select} from '../settings.js';
 import {BaseWidget} from './BaseWidget.js';
 
-export class AmountWidget extends BaseWidget{
-  constructor(wrapper){
+export class AmountWidget extends BaseWidget {
+  constructor(wrapper, stepValue, maxValue, minValue) {
     super(wrapper, settings.amountWidget.defaultValue);
 
     const thisWidget = this;
 
+    thisWidget.stepValue = stepValue || 1;
+    thisWidget.maxValue = maxValue || settings.amountWidget.defaultMax;
+    thisWidget.minValue = minValue || settings.amountWidget.defaultMin;
     thisWidget.getElements();
     thisWidget.initActions();
     thisWidget.renderValue();
+  }
+
+  parseValue(newValue) {
+    return parseFloat(newValue);
   }
 
   getElements(){
@@ -21,7 +28,9 @@ export class AmountWidget extends BaseWidget{
   }
 
   isValid(newValue){
-    return !isNaN(newValue) && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax;
+    const thisWidget = this;
+
+    return !isNaN(newValue) && newValue >= thisWidget.minValue && newValue <= thisWidget.maxValue;
   }
 
   initActions(){
@@ -33,12 +42,12 @@ export class AmountWidget extends BaseWidget{
 
     thisWidget.dom.linkDecrease.addEventListener('click', (event) => {
       event.preventDefault();
-      thisWidget.value = (parseInt(thisWidget.dom.input.value) - 1);
+      thisWidget.value = (thisWidget.parseValue(thisWidget.dom.input.value) - thisWidget.stepValue);
     });
 
     thisWidget.dom.linkIncrease.addEventListener('click', (event) => {
       event.preventDefault();
-      thisWidget.value = (parseInt(thisWidget.dom.input.value) + 1);
+      thisWidget.value = (thisWidget.parseValue(thisWidget.dom.input.value) + thisWidget.stepValue);
     });
   }
 

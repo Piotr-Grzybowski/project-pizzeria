@@ -99,13 +99,17 @@ export class Booking {
     const thisBooking = this;
 
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
-    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
+    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, 0.5, settings.hours.close - utils.hourToNumber(thisBooking.hourPicker.value), 0.5);
     thisBooking.dom.wrapper.addEventListener('updated', () => {
       thisBooking.updateDOM();
     });
     console.log;
+    thisBooking.dom.hourPicker.addEventListener('updated', () => {
+      thisBooking.hoursAmount.maxValue = settings.hours.close - utils.hourToNumber(thisBooking.hourPicker.value);
+      thisBooking.hoursAmount.value = settings.amountWidget.defaultValue;
+    });
     thisBooking.dom.form.addEventListener('submit', (event) => {
       event.preventDefault();
       if (thisBooking.isItAvailable()) {
