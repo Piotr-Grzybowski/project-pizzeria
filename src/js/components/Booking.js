@@ -101,7 +101,7 @@ export class Booking {
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
-    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, 0.5, settings.hours.close - utils.hourToNumber(thisBooking.hourPicker.value), 0.5);
+    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, 0.5, 0.5);
     thisBooking.dom.wrapper.addEventListener('updated', () => {
       thisBooking.updateDOM();
     });

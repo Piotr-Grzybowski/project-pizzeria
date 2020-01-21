@@ -2,13 +2,13 @@ import {settings, select} from '../settings.js';
 import {BaseWidget} from './BaseWidget.js';
 
 export class AmountWidget extends BaseWidget {
-  constructor(wrapper, stepValue, maxValue, minValue) {
+  constructor(wrapper, stepValue, minValue) {
     super(wrapper, settings.amountWidget.defaultValue);
 
     const thisWidget = this;
 
     thisWidget.stepValue = stepValue || 1;
-    thisWidget.maxValue = maxValue || settings.amountWidget.defaultMax;
+    thisWidget.maxValue = settings.amountWidget.defaultMax;
     thisWidget.minValue = minValue || settings.amountWidget.defaultMin;
     thisWidget.getElements();
     thisWidget.initActions();
