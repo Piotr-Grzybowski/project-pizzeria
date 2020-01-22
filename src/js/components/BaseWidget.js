@@ -34,9 +34,10 @@ export class BaseWidget{
   }
 
   renderValue(){
+    // eslint-disable-next-line no-unused-vars
     const thisWidget = this;
 
-    console.log('widget value: ', thisWidget.correctValue);
+    // console.log('widget value: ', thisWidget.correctValue);
   }
 
   announce(){

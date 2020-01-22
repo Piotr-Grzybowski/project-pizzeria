@@ -220,7 +220,7 @@ export class Booking {
 
   updateDOM() {
     const thisBooking = this;
-    console.log('updating');
+    // console.log('updating');
 
     // Unclick table when date or time is changed
     if (thisBooking.clickedTable) {
@@ -312,8 +312,9 @@ export class Booking {
       .then((response) => {
         return response.json();
       })
+      // eslint-disable-next-line no-unused-vars
       .then((parsedResponse) => {
-        console.log('parsedResponse', parsedResponse);
+        // console.log('parsedResponse', parsedResponse);
         thisBooking.getData();
       });
 

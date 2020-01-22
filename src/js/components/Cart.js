@@ -84,8 +84,9 @@ export class Cart{
       .then((response) => {
         return response.json();
       })
+      // eslint-disable-next-line no-unused-vars
       .then((parsedResponse) => {
-        console.log('parsedResponse', parsedResponse);
+        // console.log('parsedResponse', parsedResponse);
         thisCart.clear();
       });
   }

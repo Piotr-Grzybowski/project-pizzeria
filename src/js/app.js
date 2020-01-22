@@ -26,7 +26,7 @@ const app = {
         return rawResponse.json();
       })
       .then((parsedResponse) => {
-        console.log('parsedResponse', parsedResponse);
+        // console.log('parsedResponse', parsedResponse);
 
         // save parsedResponse as thisApp.data.products
         thisApp.data.products = parsedResponse;
@@ -36,7 +36,7 @@ const app = {
 
       });
 
-    console.log('thisApp.data', JSON.stringify(thisApp.data));
+    // console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
   initCart: function(){
     const thisApp = this;
@@ -65,7 +65,7 @@ const app = {
         return page.id === idFromHash;
       });
     }
-    console.log('pages', pagesMatchingHash);
+    // console.log('pages', pagesMatchingHash);
     thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
 
     for(let link of thisApp.navLinks){
