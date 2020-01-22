@@ -241,7 +241,7 @@ export class Booking {
       else table.classList.remove(classNames.booking.tableBooked);
 
       // if midnight than can't book any table
-      if (thisBooking.hourPicker.value === 0) {
+      if (thisBooking.hour === 0) {
         table.classList.add(classNames.booking.tableBooked);
       }
     }
@@ -249,6 +249,12 @@ export class Booking {
 
   handleTableClick(event) {
     const thisBooking = this;
+
+    if (thisBooking.dom.clickedTable) {
+      if (thisBooking.dom.clickedTable.classList.contains(classNames.booking.tableClicked)) {
+        thisBooking.dom.clickedTable.classList.remove(classNames.booking.tableClicked);
+      }
+    }
 
     thisBooking.dom.clickedTable = '';
     thisBooking.dom.clickedTable = event.target;
